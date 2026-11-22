@@ -1,0 +1,18 @@
+CREATE TABLE equipment(
+    ID INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    ProductName TEXT NOT NULL,
+    Category TEXT NOT NULL,
+    TotalQty INT NOT NULL
+);
+
+CREATE TABLE loans(
+    ID INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    Equipment_ID INT NOT NULL,
+    BorrowerName TEXT NOT NULL,
+    Qty INT NOT NULL,
+    Borrowed_At DATE NOT NULL,
+    Returned_At DATE,
+
+    CONSTRAINT Fk_Equipment_ID
+    FOREIGN KEY (Equipment_ID) REFERENCES equipment(ID)
+);
