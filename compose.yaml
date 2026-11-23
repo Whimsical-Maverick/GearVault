@@ -3,25 +3,21 @@ services:
     image: postgres:16-alpine
     container_name: gearvault-db
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=gear_user
+      - POSTGRES_PASSWORD=gear_password
       - POSTGRES_DB=gear_locker
-
     ports:
-      - "5433:5432"
-    
+      - "5432:5432"
     volumes:
       - gear_data:/var/lib/postgresql/data
       - ./db/init:/docker-entrypoint-initdb.d:ro
-
     healthcheck:
-      test:
-        - CMD-SHELL
-        - pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
       timeout: 3s
       retries: 10
+      start_period: 5s
+    restart: unless-stopped
 
 volumes:
   gear_data:
-    
